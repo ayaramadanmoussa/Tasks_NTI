@@ -1,0 +1,127 @@
+<div class="container mt-5">
+
+  <h1 class="text-center mb-4">
+    Smart Products Board
+  </h1>
+
+  @if (isLoggedIn) {
+    <div class="alert alert-success">
+      Welcome {{ userName }}
+    </div>
+  } @else {
+    <div class="alert alert-warning">
+      Please Login
+    </div>
+  }
+
+  <div class="mb-3">
+    <button class="btn btn-primary me-2" (click)="login()">
+      Login
+    </button>
+
+    <button class="btn btn-danger" (click)="logout()">
+      Logout
+    </button>
+  </div>
+
+  <div class="card p-3 mb-4">
+    <h4>Status</h4>
+
+    <button class="btn btn-secondary me-2"
+            (click)="setStatus('loading')">
+      Loading
+    </button>
+
+    <button class="btn btn-success me-2"
+            (click)="setStatus('success')">
+      Success
+    </button>
+
+    <button class="btn btn-danger me-2"
+            (click)="setStatus('error')">
+      Error
+    </button>
+
+    <button class="btn btn-dark"
+            (click)="setStatus('idle')">
+      Reset
+    </button>
+
+    <div class="mt-3">
+      @switch (status) {
+
+        @case ('loading') {
+          <div class="alert alert-info">
+            Loading...
+          </div>
+        }
+
+        @case ('success') {
+          <div class="alert alert-success">
+            Operation Successful
+          </div>
+        }
+
+        @case ('error') {
+          <div class="alert alert-danger">
+            Something went wrong
+          </div>
+        }
+
+        @default {
+          <div class="alert alert-secondary">
+            No Status Selected
+          </div>
+        }
+
+      }
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search Product..."
+      [(ngModel)]="searchText">
+  </div>
+
+  <button
+    class="btn btn-warning mb-3"
+    (click)="clearProducts()">
+    Clear Products
+  </button>
+
+  @for (product of filteredProducts; track product.id) {
+
+    <div class="card mb-3">
+      <div class="card-body">
+
+        <h4>{{ product.name }}</h4>
+
+        <p><strong>Price:</strong> {{ product.price }}</p>
+
+        <p><strong>Category:</strong> {{ product.category }}</p>
+
+        @if (product.inStock) {
+          <span class="badge text-bg-success">
+            In Stock
+          </span>
+        } @else {
+          <span class="badge text-bg-danger">
+            Out Of Stock
+          </span>
+        }
+
+      </div>
+    </div>
+
+  } @empty {
+
+    <div class="alert alert-warning">
+      No Products Found
+    </div>
+
+  }
+
+</div>
